@@ -1,0 +1,64 @@
+h1, h2, h3 {
+    margin: 0;
+    font-family: 'Play', sans-serif;
+    color: #FFF;
+}
+
+.container-name-btn {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+button.acordion-btn {
+    /* margin-top: 1.3vh;
+    margin-left: 1vw;
+    border: none;
+    background-color: rgb(18, 142, 219);
+    color: #FFF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width:25px;
+    height: 25px;
+    border-radius: 30%; */
+}
+
+
+.btn-add-new-item {
+    margin-right: 2rem; 
+}
+
+.position-absolute {
+    position: absolute;
+}
+
+.position-static {
+    position: static;
+}
+
+.hola{
+    display: none;
+}
+
+.chau {
+    background: #fff;
+    position: absolute;
+    top: 6.5vh;
+    left: 37%;
+    width: 100px;
+}
+
+.parent-container {
+    /* background-color: lightcoral; */
+
+}
+
+
+.btn-add-new-country{
+    margin-left: 35%;
+}
+
+.btn-add-new-city{
+    margin-left: 33%;
+}

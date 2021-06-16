@@ -1,0 +1,40 @@
+.city-item-container {
+    display: grid;
+    grid-template-columns: 5fr 1fr;
+    margin: 2vh 2vw;
+    width: 40%;
+    padding-left: 15%;
+}
+
+.country-item-acordion-btn {
+    justify-self: center;
+    align-self: center;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.item-city-name {
+    font-size: 1.5rem;
+    color: #000;
+    text-align: start;
+}
+
+.dropDown-container-country{
+    justify-self: center;
+    align-self: center;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dropdown-config {
+    height: 30px;
+    width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

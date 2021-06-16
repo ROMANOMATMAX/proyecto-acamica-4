@@ -1,0 +1,14 @@
+export const LOGIN_EXITOSO  = 'LOGIN_EXITOSO';
+export const LOGIN_ERROR = 'LOGIN_ERROR'
+export const OBTENER_USUARIO = 'OBTENER_USUARIO'
+export const CERRAR_SESION = 'CERRAR_SESION'
+
+export const MOSTRAR_ALERTA = 'MOSTRAR_ALERTA'
+export const OCULTAR_ALERTA = 'OCULTAR_ALERTA'  
+
+//Para manejar contactos
+export const OBTENER_CONTACTOS = 'OBTENER_CONTACTOS'
+
+//Para manejar regiones
+export const OBTENER_REGIONES = 'OBTENER_REGIONES'
+export const ERROR_OBTENER_REGIONES = 'ERROR_OBTENER_REGIONES'

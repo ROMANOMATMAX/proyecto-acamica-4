@@ -1,0 +1,14 @@
+.contenedor-form  {
+    width: 500px;
+    margin: 0 auto;
+    position: absolute;
+    top: 1vh;
+    right: 28%;
+    background: white;
+}
+
+.form-new-ccr {
+    margin: 1vh 2vw;
+    border: 1px solid gray;
+    padding: 1vh 2vw;
+}

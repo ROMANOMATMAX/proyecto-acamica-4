@@ -1,0 +1,40 @@
+.country-item-container {
+    display: grid;
+    grid-template-columns: 1fr 5fr 1fr;
+    margin: 2vh 2vw;
+    width: 50%;
+    padding-left: 10%;
+}
+
+.country-item-acordion-btn {
+    justify-self: center;
+    align-self: center;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.item-country-name {
+    font-size: 1.5rem;
+    color: #000;
+    text-align: center;
+}
+
+.dropDown-container-country{
+    justify-self: center;
+    align-self: center;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dropdown-config {
+    height: 30px;
+    width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

@@ -1,0 +1,20 @@
+.region-item-container {
+    display: grid;
+    grid-template-columns: 1fr 5fr 1fr;
+    margin: 2vh 2vw;
+}
+
+.region-item-acordion-btn {
+    justify-self: center;
+    align-self: center;
+}
+
+.item-region-name {
+    color: #000;
+    text-align: center;
+}
+
+.dropDown-container{
+    justify-self: center;
+    align-self: center;
+}
