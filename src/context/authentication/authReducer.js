@@ -34,7 +34,7 @@ export default (state, action) => {
             return {
                 ...state,
                 token: null,
-                usuario: null,
+                usuario: {},
                 autenticado: null,
                 cargando: false,
             }

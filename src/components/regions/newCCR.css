@@ -1,14 +1,39 @@
 .contenedor-form  {
     width: 500px;
+    height: 250px;
     margin: 0 auto;
     position: absolute;
-    top: 1vh;
-    right: 28%;
+    top: 25%;
+    right: 32%;
     background: white;
+    box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.75);
+    -webkit-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.75);
 }
 
 .form-new-ccr {
-    margin: 1vh 2vw;
-    border: 1px solid gray;
-    padding: 1vh 2vw;
+    background-color: rgb(200 190 190 / 50%);
+}
+
+.close-btn {
+    top: 1vh;
+    right: 1vw;
+    z-index: 2;
+}
+
+.contenedor-input {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-submit-form{
+    bottom: 1vh;
+    right: 1vw;
+}
+
+.costumized-label {
+    font-weight: 700;
 }

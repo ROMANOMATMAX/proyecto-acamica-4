@@ -5,3 +5,15 @@
 .yep-render {
     position: relative;
 }
+
+.opacity-one {
+    opacity: 1;
+}
+.opacity-lower {
+    opacity: 0.2;
+}
+
+.btn-add-new-region {
+    margin-left: 70%;
+    margin-bottom: 4vh;
+}

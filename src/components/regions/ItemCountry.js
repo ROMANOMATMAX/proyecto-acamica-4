@@ -48,14 +48,14 @@ const ItemCountry = ({setItemToAdd, setIdRegion, setMostrarFormUpdate, setOpacit
 
     return (  
         <div className="country-item-container">
-                <button onClick={changeDisplayClass} className="btn btn-secondary country-item-acordion-btn"><i class="far fa-caret-square-down"></i></button>
+                <a onClick={changeDisplayClass} className="country-item-acordion-btn"><i class="far fa-caret-square-down"></i></a>
                 <h1 className="item-country-name">{parentName}</h1>  
                 <div className="dropDown-container-country">
                 {/* <button onClick={dropDownMenu} className="acordion-btn"><i class="fas fa-ellipsis-v"></i></button> */}
                 <div class="dropdown">
-                <button class="btn btn-secondary dropdown-config" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                <a class="dropdown-config" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="fas fa-ellipsis-v"></i>
-                </button>
+                </a>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                     <li><a class="dropdown-item" onClick={updateItem} href="#">Modificar</a></li>
                     <li><a class="dropdown-item" onClick={deleteItem} href="#">Eliminar</a></li>

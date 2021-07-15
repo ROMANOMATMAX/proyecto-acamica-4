@@ -27,12 +27,35 @@ const AlertaState = props => {
         //     })
         // }, 5000);
     }
+    // const mostrarAlertaAutoDelete = (msg, categoria) => {
+    //     dispatch({
+    //         type: MOSTRAR_ALERTA,
+    //         payload: {
+    //             msg,
+    //             categoria
+    //         }
+    //     })
 
+    //     // Despues de 5 seg limpiar el error
+    //     setTimeout(()=>{
+    //         dispatch({
+    //             type: OCULTAR_ALERTA
+    //         })
+    //     }, 5000);
+    // }
+    const ocultarAlarma = () => {
+        setTimeout(()=>{
+            dispatch({
+                type: OCULTAR_ALERTA
+            })
+        }, 1000);
+    }
     return(
         <alertaContext.Provider
             value={{    
                 alerta: state.alerta,
                 mostrarAlerta,
+                ocultarAlarma,
             }}
         >
             {props.children}

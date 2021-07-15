@@ -31,7 +31,7 @@ const UpdateCCR = ({setMostrarFormUpdate, opacityOn, setOpacityOn, itemToAdd, id
             currentCountry = respuesta.data;
             setNewRegion({
                 ...newRegion,
-                region_name : currentCountry.country_name
+                region_name : currentCountry.region_name
             })
             console.log(newRegion);
             break;
@@ -153,18 +153,26 @@ const UpdateCCR = ({setMostrarFormUpdate, opacityOn, setOpacityOn, itemToAdd, id
     }
   }
 
+  const closeForm = () => {
+    console.log("hello world");
+    setMostrarFormUpdate(false)
+    setMostrarRegiones(true);
+    setOpacityOn("opacity-one")
+  }
+
   return (  
     <div className="contenedor-form">
+      <a className="close-btn position-absolute" onClick={closeForm}><i class="fas fa-window-close"></i></a>
       <form
-        className="form-new-ccr"
+        className="form-new-ccr costumize-newUser-form-styles h-100 position-relative"
         onSubmit={onSubmitHandler}
       >
-    <div className="mb-3">
-      <label htmlFor="exampleInputEmail1" className="htmlForm-label mx-2">Name of {itemToAdd}: </label>
+    <div className="form-group contenedor-input">
+      <label htmlFor="exampleInputEmail1" className="htmlForm-label mx-2 costumized-label">Name of {itemToAdd}: </label>
       <input name="region_name" type="text" className="htmlForm-control" onChange={onChangeHandler} value={region_name}
       />
     </div>
-    <button type="submit" className="btn btn-secondary btn-sm">Submit</button>
+    <button type="submit" className="btn btn-primary btn-sm position-absolute btn-submit-form">modify</button>
   </form>
     </div>
   );

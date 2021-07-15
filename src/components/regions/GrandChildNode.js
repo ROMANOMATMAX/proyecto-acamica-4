@@ -52,9 +52,9 @@ const GrandChildNode = ({setItemToAdd, setIdRegion,setMostrarFormUpdate, setOpac
                 <div className="dropDown-container-country">
                 {/* <button onClick={dropDownMenu} className="acordion-btn"><i class="fas fa-ellipsis-v"></i></button> */}
                 <div class="dropdown">
-                <button class="btn btn-secondary dropdown-config" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                <a class="dropdown-config-grand-child" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="fas fa-ellipsis-v"></i>
-                </button>
+                </a>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                     <li><a class="dropdown-item" onClick={updateItem} href="#">Modificar</a></li>
                     <li><a class="dropdown-item" onClick={deleteItem} href="#">Eliminar</a></li>

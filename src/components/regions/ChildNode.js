@@ -63,8 +63,8 @@ const ChildNode = ({setMostrarFormUpdate, setUpdateRegions, updateRegions, setOp
             </ul>
             {showAddCityBtn ?<button
                 onClick={onClickHandler}
-                className="btn btn-secondary btn-sm btn-add-new-city my-2"
-            >agregar ciudad
+                className="btn btn-primary btn-sm btn-add-new-city my-2"
+            >new city
             </button> : null}
         </li>
     );

@@ -24,6 +24,12 @@ const Form = styled.form`
 
 
 const Login = (props) => {
+    if(!localStorage.getItem('currentComponent')){
+        localStorage.setItem('currentComponent', "/");
+    }else{
+        localStorage.removeItem("currentComponent");
+        localStorage.setItem('currentComponent', "/");
+    }
     //Traigo el context de alertas
     const alertaContext = useContext(AlertaContext);
     const {alerta, mostrarAlerta} = alertaContext; 

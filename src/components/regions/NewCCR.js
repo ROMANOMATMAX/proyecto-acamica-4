@@ -1,10 +1,16 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
+import { useHistory } from "react-router-dom";
+import AlertaContext from '../../context/alertas/alertaContext'
 import './newCCR.css'
 import clienteAxios from '../../config/axios'
 import tokenAuth from '../../config/token';
 const NewCCR = ({opacityOn, setOpacityOn, itemToAdd, idRegion, setMostrarForm, setMostrarRegiones, setUpdateRegions, updateRegions}) => {
   
+  let history = useHistory();
   
+  const alertaContext = useContext(AlertaContext);
+  const {alerta, mostrarAlerta, ocultarAlarma} = alertaContext; 
+
   console.log(itemToAdd);
   console.log(idRegion);
   const [newRegion, setNewRegion] = useState({
@@ -59,20 +65,39 @@ const NewCCR = ({opacityOn, setOpacityOn, itemToAdd, idRegion, setMostrarForm, s
     }else{
       setUpdateRegions(true);
     }
+    // const routeToRedirect = localStorage.getItem("currentComponent")
+    mostrarAlerta("You have added successfuly a new region item")
+    ocultarAlarma();
+    //Si viene de los formularios debo redireccionar ahi sino me quedo no mas en region
+    // if(routeToRedirect === '/add-new-contact' || routeToRedirect === '/modify-contact' || routeToRedirect === '/add-new-company' || routeToRedirect === '/modify-company') {
+    //   history.push(routeToRedirect);
+    // }else{
+    //   history.push('/regiones')
+    // }
+    history.push('/regiones')
+    // props.history.push("/companias")
+  }
+
+  const closeForm = () => {
+    setMostrarForm(false)
+    setMostrarRegiones(true);
+    setOpacityOn("opacity-one")
   }
 
   return (  
     <div className="contenedor-form">
+      {alerta ? ( <div className="alert alert-success position-fixed top-0 left-0 index-3">{alerta.msg}</div>): null}
+      <a className="close-btn position-absolute" onClick={closeForm}><i class="fas fa-window-close"></i></a>
       <form
-        className="form-new-ccr costumize-newUser-form-styles"
+        className="form-new-ccr costumize-newUser-form-styles h-100 position-relative"
         onSubmit={onSubmitHandler}
       >
-    <div className="mb-3">
-      <label htmlFor="exampleInputEmail1" className="htmlForm-label mx-2">Name of {itemToAdd}</label>
+    <div className="form-group contenedor-input">
+      <label htmlFor="exampleInputEmail1" className="htmlForm-label mx-2 costumized-label">Name of {itemToAdd}</label>
       <input name="region_name" type="text" className="htmlForm-control" onChange={onChangeHandler} value={region_name}
       />
     </div>
-    <button type="submit" className="btn btn-secondary btn-sm">Submit</button>
+    <button type="submit" className="btn btn-primary btn-sm position-absolute btn-submit-form">Add</button>
   </form>
     </div>
   );

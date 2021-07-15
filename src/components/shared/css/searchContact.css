@@ -1,0 +1,45 @@
+form {
+    position: relative;
+    padding-left: 10%;
+}
+
+.input-search-costumized-styles {
+    width: 100%;
+}
+
+.input-search-container {
+    position: relative;
+    width:40%;
+}
+
+.filter-inputs-container{
+    width:40%;
+    position: absolute;
+    z-index: 2;
+}
+
+#search-arrow {
+    position: absolute;
+    top: 0.33vh;
+    right: 1.5%;
+}
+
+label {
+    margin-right: 2%;
+}
+
+.form-item-container {
+    margin: 1.5vh 0;
+}
+
+.submit-button-styles {
+    position: absolute;
+    top: 14%;
+    right: 50%;
+}
+
+.submit-button-styles-arrow-click {
+    position: absolute;
+    top: 65%;
+    right: 50%;
+}

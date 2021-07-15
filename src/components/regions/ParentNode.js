@@ -3,8 +3,8 @@ import ChildNode from './ChildNode'
 import ItemRegion from './ItemRegion';
 // import itemRegion from './ItemRegion'
 import NewCCR from './NewCCR'
-import ('./region.css')
-import ('./parentNode.css')
+import './region.css'
+import './parentNode.css'
 
 
 
@@ -98,8 +98,8 @@ const ParentNode = ({mostrarFormUpdate, setMostrarFormUpdate,setUpdateRegions, u
             </ul>
             {showAddCountryBtn ?<button
                     onClick={onClickHandler}
-                    className="btn btn-secondary btn-sm btn-add-new-country my-2"
-            >Agregar un pais</button> : null}
+                    className="btn btn-primary btn-md btn-add-new-country my-2"
+            >new country</button> : null}
         </Fragment>
     );
 }

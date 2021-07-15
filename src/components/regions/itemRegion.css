@@ -1,12 +1,28 @@
 .region-item-container {
     display: grid;
-    grid-template-columns: 1fr 5fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     margin: 2vh 2vw;
 }
 
-.region-item-acordion-btn {
-    justify-self: center;
+.region-item-acordion-btn-left {
+    font-size: 1.2rem;
+    justify-self: end;
     align-self: center;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+}
+
+.region-item-acordion-btn-right {
+    justify-self: start;
+    align-self: center;
+    font-size: 1.2remrem;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    color: black;
 }
 
 .item-region-name {
@@ -15,6 +31,6 @@
 }
 
 .dropDown-container{
-    justify-self: center;
+    justify-self: start;
     align-self: center;
 }

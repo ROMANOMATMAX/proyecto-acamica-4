@@ -16,7 +16,7 @@ const AuthState = props => {
         token: localStorage.getItem('token'),
         autenticado: null,
         mensaje: null,
-        usuario: null,
+        usuario: {},
         cargando: true
     }
     //Asociar with useReducer the function and the state
@@ -54,10 +54,11 @@ const AuthState = props => {
         try{
             console.log("I am here");
             const respuesta = await clienteAxios.get('/users/auth');
-            // console.log(respuesta);
+
+            console.log(respuesta.data);
             dispatch({
                 type: OBTENER_USUARIO,
-                payload: respuesta.data.usuario
+                payload: respuesta.data
             })
         }catch(error){
             console.log(error);

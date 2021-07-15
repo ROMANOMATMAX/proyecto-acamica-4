@@ -35,14 +35,15 @@ const ItemRegion = ({setIdRegion, setItemToAdd, setOpacityOn, setMostrarFormUpda
 
     return (  
         <div className="region-item-container">
-                <button onClick={changeDisplayClass} className="btn btn-secondary region-item-acordion-btn"><i class="far fa-caret-square-down"></i></button>
+                {/* <button onClick={changeDisplayClass} className="btn btn-primary region-item-acordion-btn"><i class="far fa-caret-square-down"></i></button> */}
+                <a onClick={changeDisplayClass} className="region-item-acordion-btn-left"><i class="far fa-caret-square-down"></i></a>
                 <h1 className="item-region-name">{parentName}</h1>  
                 <div className="dropDown-container">
                 {/* <button onClick={dropDownMenu} className="acordion-btn"><i class="fas fa-ellipsis-v"></i></button> */}
-                <div class="dropdown">
-                <button class="btn btn-secondary " type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                <div class="">
+                <a class="region-item-acordion-btn-right" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="fas fa-ellipsis-v"></i>
-                </button>
+                </a>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                     <li><a class="dropdown-item" onClick={updateItem} href="#">Modificar</a></li>
                     <li><a class="dropdown-item" onClick={deleteItem} href="#">Eliminar</a></li>
