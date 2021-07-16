@@ -53,19 +53,19 @@ const Header = (props) => {
         }
     }
     return (  
-        <header>
+        <header className="my-4">
             <div className="logo-container">
                 <img src={logo} alt="" className="w-100"/>
             </div>
             <ul>
                 <li>
                     <Link to={'/registrarse'} className='enlace-cuenta' onClick={currentContact}>
-                    Contactos
+                    Contacts
                     </Link>
                 </li>
                 <li>
                     <Link to={'/companias'} className='enlace-cuenta' onClick={currentCompania}>
-                    Compañias
+                    Companies
                     </Link>
                 </li>
                 {/* <li>
@@ -75,13 +75,13 @@ const Header = (props) => {
                 </li> */}
                 {usuario.role === "ADMIN" ? <li>
                     <Link to={'/usuarios'} className='enlace-cuenta' onClick={currentUsuarios}>
-                    Usuarios
+                    Users
                     </Link>
                 </li>
                 : null}
                 <li>
                     <Link to={'/regiones'} className='enlace-cuenta' onClick={currentRegiones}>
-                    Regiones/paises
+                    Regions/countries
                     </Link>
                 </li>
             </ul>
@@ -96,8 +96,8 @@ const Header = (props) => {
             </div>
             <div className={isActive ? "menu-close-session display-menu" : "menu-close-session"}>
                 <div className="close-session-list">
-                    <p>Sign in as: MR</p>
-                    <button onClick={() => cerrarSesion()}>Cerrar Session</button>
+                    <p className="mx-1 text-white">Sign in as: {usuario.fullname}</p>
+                    <button onClick={() => cerrarSesion()}>Exit</button>
                 </div>
             </div>
         </header>

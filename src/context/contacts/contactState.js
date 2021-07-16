@@ -23,7 +23,8 @@ import {
     OBTENER_CONTACT_CHANNELS,
     DELETE_CONTACT_CHANNELS,
     DELETE_CURRENT_CONTACT,
-    DELETE_CURRENT_COMPANY
+    DELETE_CURRENT_COMPANY,
+    DELETE_CIUDADES_DE_PAIS
 } from '../../types'
 import { PoundOutlined } from '@ant-design/icons';
 
@@ -232,6 +233,12 @@ const ContactState = props => {
         // console.log(citiesOfCountryData[0].city_name);
         // await setCities(citiesOfCountryArrayData);
         // await setCity(citiesOfCountryArrayData[0].city_name)
+    }
+
+    const deleteCitiesByCountry = async () => {
+        dispatch({
+            type: DELETE_CIUDADES_DE_PAIS,
+        })
     }
     /************ Companies ***************/
     //Funcion para obtener todas las compañias que hay en DB
@@ -539,7 +546,8 @@ const ContactState = props => {
                 allChannelsOfOneContact,
                 deleteAllChannelsOfOneContact,
                 deleteCurrentContact,
-                deleteCurrentCompany
+                deleteCurrentCompany,
+                deleteCitiesByCountry
             }}
         >
             {props.children}

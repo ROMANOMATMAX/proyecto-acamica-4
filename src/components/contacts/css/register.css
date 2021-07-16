@@ -40,11 +40,16 @@ ul {
 }
 
 .menu-close-session {
+    background-color: rgb(158, 153, 153);
     position: absolute;
     right: 1%;
     bottom: -3rem;
     text-align: center;
     display: none;
+}
+
+.color-gris {
+    background-color: rgb(158, 153, 153);
 }
 
 .close-session-list {

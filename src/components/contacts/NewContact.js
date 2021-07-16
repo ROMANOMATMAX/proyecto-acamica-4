@@ -2,6 +2,7 @@ import React, {Fragment, useState, useEffect, useContext, useRef} from 'react';
 import swal from 'sweetalert';
 import { CloseOutlined } from '@ant-design/icons'
 import {Link} from 'react-router-dom';
+import Header from '../shared/Header'
 import AlertaContext from '../../context/alertas/alertaContext'
 import ContactContext from '../../context/contacts/contactContext';
 import { Form, Input, Button, Select } from 'antd';
@@ -54,7 +55,7 @@ const NewContact = (props) => {
     const {alerta, mostrarAlerta, ocultarAlarma} = alertaContext; 
     //Traigo el context de contactos
     const contactContext = useContext(ContactContext);
-    const {regiones, paisesDeRegion, regionName, country, city, getRegions, getCountriesByRegion, ciudadesDePais, companias, getCitiesByCountry, getCompanies, fillRegionField, fillCountryField, fillCityField, createContact} = contactContext;
+    const {regiones, paisesDeRegion, regionName, country, city, getRegions, getCountriesByRegion, ciudadesDePais, companias, getCitiesByCountry, getCompanies, fillRegionField, fillCountryField, fillCityField, createContact, deleteCitiesByCountry} = contactContext;
     //UseEffect
     useEffect(() => {
         console.log("Entre al use effect de nuevo contacto");
@@ -110,7 +111,10 @@ const NewContact = (props) => {
           });
         setActiveCountrySelect(false)
         setPlaceHolderCountry("Select country")
+        setActiveCitySelect(true)
+        setPlaceHolderCity("First Select a country")
         // setRegion(e.target.name);
+        deleteCitiesByCountry();
         getCountriesByRegion(value);
     }
 
@@ -617,540 +621,543 @@ const NewContact = (props) => {
     
     return (  
         <Fragment>
-            <h1>Complete con los datos del nuevo contacto</h1>
+            <Header/>
+            <h3 className="text-primary text-center">Enter new contact data</h3>
             {alerta ? ( <div className="alert alert-success position-fixed top-0 left-0 index-3">{alerta.msg}</div>): null}
-            <Form 
-                ref={formularioRef}
-                layout={formLayout} 
-                form={form} 
-                name="control-hooks" 
-                onFinish={onFinish} 
-                className="formulario" 
-                onFinishFailed={onFinishFailed}
-            >
-                <Row gutter={16}>
-                    <Col span={2}></Col>
-                    <Col span={5}>
-                        <Form.Item 
-                            name="fullname" 
-                            label="Fullname" 
-                            rules={[{ required: true, message: 'Please input your fullname!!' }]}
-                        >
-                            <Input placeholder="Enter your fullname"/>
-                        </Form.Item>
-                    </Col>
-                    {/* <Col span={4}>
-                        <Form.Item name="lastName" label="Last Name" >
-                            <Input />
-                        </Form.Item>
-                    </Col>
-                    <Col span={4}>
-                        <Form.Item name="position" label="Position" >
-                            <Input />
-                        </Form.Item>
-                    </Col> */}
-                    <Col span={5}>
-                        <Form.Item 
-                            name="email" 
-                            label="Email" 
-                            rules={[{ required: true, message: 'Please input your email!!' }]}
-                        >
-                            <Input placeholder="Enter your email"/>
-                        </Form.Item>
-                    </Col>
-                    <Col span={5}>
-                        <Form.Item 
-                            name="charge" 
-                            label="Charge" 
-                            rules={[{ required: true, message: 'Please input your charge!!' }]}
-                        >
-                            <Input placeholder="Enter your charge"/>
-                        </Form.Item>
-                    </Col>
-                    <Col span={5}>
-                        <Form.Item 
-                        name="company_id" 
-                        label="Company" 
-                        rules={[{ required: true, message: 'Please input your company!!' }]}
-                        >
-                            <Select
-                            placeholder="Select your company"
-                            onChange={onCompanyChange}
-                            allowClear
-                            notFoundContent="Please add the company"
-                            >
-                            {companias.map( company => (
-                                <Select.Option value={company.id} key={company.id}>{company.name}</Select.Option>    
-                            ))}
-                            </Select>
-                            {/* <Button type="primary" icon={<PlusCircleOutlined />} className="add-new-item"></Button> */}
-                            <Link to={'/add-new-company'} className='btn btn-sm btn-primary mt-1'>
-                                Add new one
-                            </Link>
-                        </Form.Item>
-                    </Col>
-                    {/* <Col span={5}>
-                        <Form.Item 
-                            name="contactChannel" 
-                            label="Contact Channel" 
-                            rules={[{ required: true, message: 'Select one contact channel!!' }]}
-                        >
-                            <Select
-                            placeholder="Select your contact channels"
-                            onChange={onGenderChange}
-                            allowClear
-                            >
-                            <Option value="male">male</Option>
-                            <Option value="female">female</Option>
-                            <Option value="other">other</Option>
-                            </Select>
-                        </Form.Item>
-                    </Col> */}
-                    <Col span={2}></Col>
-            </Row>
-            <Row gutter={16}>
-                <Col span={2}></Col>
-                <Col span={5}>
-                        <Form.Item 
-                            name="contactChannel" 
-                            label="Contact channel 1" 
-                            rules={[{ required: true, message: 'Select contact channel' }]}
-                        >
-                            <Select
-                            placeholder="Select your contact channels"
-                            onChange={onContactChannelChange}
-                            allowClear
-                            >
-                            <Option value="1" disabled={disable1}>Whatsapp</Option>
-                            <Option value="2" disabled={disable2}>LLamada</Option>
-                            <Option value="3" disabled={disable3}>Email</Option>
-                            <Option value="4" disabled={disable4}>LinkedIn</Option>
-                            <Option value="5" disabled={disable5}>Facebook</Option>
-                            <Option value="6" disabled={disable6}>Instagram</Option>
-                            </Select>
-                        </Form.Item>
-                    </Col>
-                    <Col span={5}>
-                        <Form.Item 
-                            name="contactChannelValue" 
-                            label="user account" 
-                            onChange={onCuentaUsuarioChange}
-                            rules={[{ required: true, message: 'Fill value of this channel' }]}
-                        >
-                            <Input placeholder="Enter contact value channel"/>
-                        </Form.Item>
-                    </Col>
-                    <Col span={5}>
-                        <Form.Item 
-                            name="preference" 
-                            label="Preference" 
-                            rules={[{ required: true, message: 'Select preference' }]}
-                        >
-                            <Select
-                            placeholder="Select preference"
-                            onChange={onPreferenceChange}
-                            allowClear
-                            >
-                            <Option value="fv">Canal Favorito</Option>
-                            <Option value="sp">Sin preferencia</Option>
-                            <Option value="nm">No molestar   </Option>
-                            </Select>
-                        </Form.Item>
-                    </Col>
-                    <Col span={5} className="d-flex justify-content-center align-items-center">
-                    <Button type="primary" onClick={newContactChannelRow} disabled={!activeNewContactChannelBtn}>
-                        One more
-                    </Button>
-                    </Col>
-                <Col span={2}></Col>
-            </Row>
-            { channels[0]? <Row gutter={16}>
-                <Col span={2}></Col>
-                <Col span={5}>
-                        <Form.Item 
-                            name="contactChannel0" 
-                            label="Contact Channel 2" 
-                            rules={[{ required: true, message: 'Select contact channel' }]}
-                            // rules={[{ required: true, message: 'Select one contact channel!!' }]}
-                        >
-                            <Select
-                            placeholder="Select your contact channels"
-                            onChange={onContactChannelChange0}
-                            allowClear
-                            >
-                            <Option value="1" disabled={disable1}>Whatsapp</Option>
-                            <Option value="2" disabled={disable2}>LLamada</Option>
-                            <Option value="3" disabled={disable3}>Email</Option>
-                            <Option value="4" disabled={disable4}>LinkedIn</Option>
-                            <Option value="5" disabled={disable5}>Facebook</Option>
-                            <Option value="6" disabled={disable6}>Instagram</Option>
-                            </Select>
-                        </Form.Item>
-                    </Col>
-                    <Col span={5}>
-                        <Form.Item 
-                            name="contactChannelValue0" 
-                            label="user account" 
-                            onChange={onCuentaUsuarioChange}
-                            rules={[{ required: true, message: 'Fill value of this channel' }]}
-                            // rules={[{ required: true, message: 'Please input your account or address!!' }]}
-                        >
-                            <Input placeholder="Enter contact value channel"/>
-                        </Form.Item>
-                    </Col>
-                    <Col span={5}>
-                        <Form.Item 
-                            name="preference0" 
-                            label="Preference" 
-                            rules={[{ required: true, message: 'Select preference' }]}
-                            // rules={[{ required: true, message: 'Select one contact channel!!' }]}
-                        >
-                            <Select
-                            placeholder="Select your contact channels"
-                            onChange={onPreferenceChange}
-                            allowClear
-                            >
-                            <Option value="fv">Canal Favorito</Option>
-                            <Option value="sp">Sin preferencia</Option>
-                            <Option value="nm">No molestar   </Option>
-                            </Select>
-                        </Form.Item>
-                    </Col>
-                    <Col span={5} className="d-flex justify-content-center align-items-center">
-                    <Button type="primary" className="d-flex justify-content-center align-items-center" onClick={channel1off}  icon={<CloseOutlined />}/>
-                    </Col>
-                <Col span={2}></Col>
-            </Row>
-            
-            :null}
-            { channels[1]? <Row gutter={16}>
-                <Col span={2}></Col>
-                <Col span={5}>
-                        <Form.Item 
-                            name="contactChannel1" 
-                            label="Contact Channel 3" 
-                            rules={[{ required: true, message: 'Select contact channel' }]}
-                            // rules={[{ required: true, message: 'Select one contact channel!!' }]}
-                        >
-                            <Select
-                            ref={thirdSelectRef}
-                            placeholder="Select your contact channels"
-                            onChange={onContactChannelChange1}
-                            allowClear
-                            >
-                            <Option value="1" disabled={disable1}>Whatsapp</Option>
-                            <Option value="2" disabled={disable2}>LLamada</Option>
-                            <Option value="3" disabled={disable3}>Email</Option>
-                            <Option value="4" disabled={disable4}>LinkedIn</Option>
-                            <Option value="5" disabled={disable5}>Facebook</Option>
-                            <Option value="6" disabled={disable6}>Instagram</Option>
-                            </Select>
-                        </Form.Item>
-                    </Col>
-                    <Col span={5}>
-                        <Form.Item 
-                            name="contactChannelValue1" 
-                            label="user account" 
-                            onChange={onCuentaUsuarioChange}
-                            rules={[{ required: true, message: 'Fill value of this channel' }]}
-                            // rules={[{ required: true, message: 'Please input your account or address!!' }]}
-                        >
-                            <Input placeholder="Enter contact value channel"/>
-                        </Form.Item>
-                    </Col>
-                    <Col span={5}>
-                        <Form.Item 
-                            name="preference1" 
-                            label="Preference" 
-                            rules={[{ required: true, message: 'Select preference' }]}
-                            // rules={[{ required: true, message: 'Select one contact channel!!' }]}
-                        >
-                            <Select
-                            placeholder="Select your contact channels"
-                            onChange={onPreferenceChange}
-                            allowClear
-                            >
-                            <Option value="fv">Canal Favorito</Option>
-                            <Option value="sp">Sin preferencia</Option>
-                            <Option value="nm">No molestar   </Option>
-                            </Select>
-                        </Form.Item>
-                    </Col>
-                    <Col span={5} className="d-flex justify-content-center align-items-center">
-                    <Button type="primary" className="d-flex justify-content-center align-items-center" onClick={channel2off} icon={<CloseOutlined />}/>
-                    </Col>
-                <Col span={2}></Col>
-            </Row>
-            
-            :null}
-            { channels[2] ? <Row gutter={16}>
-                <Col span={2}></Col>
-                <Col span={5}>
-                        <Form.Item 
-                            name="contactChannel2" 
-                            label="Contact Channel 4" 
-                            rules={[{ required: true, message: 'Select contact channel' }]}
-                            // rules={[{ required: true, message: 'Select one contact channel!!' }]}
-                        >
-                            <Select
-                            placeholder="Select your contact channels"
-                            onChange={onContactChannelChange2}
-                            allowClear
-                            >
-                            <Option value="1" disabled={disable1}>Whatsapp</Option>
-                            <Option value="2" disabled={disable2}>LLamada</Option>
-                            <Option value="3" disabled={disable3}>Email</Option>
-                            <Option value="4" disabled={disable4}>LinkedIn</Option>
-                            <Option value="5" disabled={disable5}>Facebook</Option>
-                            <Option value="6" disabled={disable6}>Instagram</Option>
-                            </Select>
-                        </Form.Item>
-                    </Col>
-                    <Col span={5}>
-                        <Form.Item 
-                            name="contactChannelValue2" 
-                            label="user account" 
-                            onChange={onCuentaUsuarioChange}
-                            rules={[{ required: true, message: 'Fill value of this channel' }]}
-                            // rules={[{ required: true, message: 'Please input your account or address!!' }]}
-                        >
-                            <Input placeholder="Enter contact value channel"/>
-                        </Form.Item>
-                    </Col>
-                    <Col span={5}>
-                        <Form.Item 
-                            name="preference2" 
-                            label="Preference" 
-                            rules={[{ required: true, message: 'Select preference' }]}
-                            // rules={[{ required: true, message: 'Select one contact channel!!' }]}
-                        >
-                            <Select
-                            placeholder="Select your contact channels"
-                            onChange={onPreferenceChange}
-                            allowClear
-                            >
-                            <Option value="fv">Canal Favorito</Option>
-                            <Option value="sp">Sin preferencia</Option>
-                            <Option value="nm">No molestar   </Option>
-                            </Select>
-                        </Form.Item>
-                    </Col>
-                    <Col span={5} className="d-flex justify-content-center align-items-center">
-                    <Button type="primary" className="d-flex justify-content-center align-items-center" onClick={channel3off} icon={<CloseOutlined />}/>
-                    </Col>
-                <Col span={2}></Col>
-            </Row>
-            
-            :null}
-            { channels[3] ? <Row gutter={16}>
-                <Col span={2}></Col>
-                <Col span={5}>
-                        <Form.Item 
-                            name="contactChannel3" 
-                            label="Contact Channel 5" 
-                            rules={[{ required: true, message: 'Select contact channel' }]}
-                            // rules={[{ required: true, message: 'Select one contact channel!!' }]}
-                        >
-                            <Select
-                            placeholder="Select your contact channels"
-                            onChange={onContactChannelChange3}
-                            allowClear
-                            >
-                            <Option value="1" disabled={disable1}>Whatsapp</Option>
-                            <Option value="2" disabled={disable2}>LLamada</Option>
-                            <Option value="3" disabled={disable3}>Email</Option>
-                            <Option value="4" disabled={disable4}>LinkedIn</Option>
-                            <Option value="5" disabled={disable5}>Facebook</Option>
-                            <Option value="6" disabled={disable6}>Instagram</Option>
-                            </Select>
-                        </Form.Item>
-                    </Col>
-                    <Col span={5}>
-                        <Form.Item 
-                            name="contactChannelValue3" 
-                            label="user account" 
-                            onChange={onCuentaUsuarioChange}
-                            rules={[{ required: true, message: 'Fill value of this channel' }]}
-                            // rules={[{ required: true, message: 'Please input your account or address!!' }]}
-                        >
-                            <Input placeholder="Enter contact value channel"/>
-                        </Form.Item>
-                    </Col>
-                    <Col span={5}>
-                        <Form.Item 
-                            name="preference3" 
-                            label="Preference" 
-                            rules={[{ required: true, message: 'Select preference' }]}
-                            // rules={[{ required: true, message: 'Select one contact channel!!' }]}
-                        >
-                            <Select
-                            placeholder="Select your contact channels"
-                            onChange={onPreferenceChange}
-                            allowClear
-                            >
-                            <Option value="fv">Canal Favorito</Option>
-                            <Option value="sp">Sin preferencia</Option>
-                            <Option value="nm">No molestar   </Option>
-                            </Select>
-                        </Form.Item>
-                    </Col>
-                    <Col span={5} className="d-flex justify-content-center align-items-center">
-                    <Button type="primary" className="d-flex justify-content-center align-items-center" onClick={channel4off} icon={<CloseOutlined />}/>
-                    </Col>
-                <Col span={2}></Col>
-            </Row>
-            
-            :null}
-            { channels[4] ? <Row gutter={16}>
-                <Col span={2}></Col>
-                <Col span={5}>
-                        <Form.Item 
-                            name="contactChannel4" 
-                            label="Contact Channel 6" 
-                            rules={[{ required: true, message: 'Select contact channel' }]}
-                            // rules={[{ required: true, message: 'Select one contact channel!!' }]}
-                        >
-                            <Select
-                            placeholder="Select your contact channels"
-                            onChange={onContactChannelChange4}
-                            allowClear
-                            >
-                            <Option value="1" disabled={disable1}>Whatsapp</Option>
-                            <Option value="2" disabled={disable2}>LLamada</Option>
-                            <Option value="3" disabled={disable3}>Email</Option>
-                            <Option value="4" disabled={disable4}>LinkedIn</Option>
-                            <Option value="5" disabled={disable5}>Facebook</Option>
-                            <Option value="6" disabled={disable6}>Instagram</Option>
-                            </Select>
-                        </Form.Item>
-                    </Col>
-                    <Col span={5}>
-                        <Form.Item 
-                            name="contactChannelValue4" 
-                            label="user account" 
-                            onChange={onCuentaUsuarioChange}
-                            rules={[{ required: true, message: 'Fill value of this channel' }]}
-                            // rules={[{ required: true, message: 'Please input your account or address!!' }]}
-                        >
-                            <Input placeholder="Enter contact value channel"/>
-                        </Form.Item>
-                    </Col>
-                    <Col span={5}>
-                        <Form.Item 
-                            name="preference4" 
-                            label="Preference" 
-                            rules={[{ required: true, message: 'Select preference' }]}
-                            // rules={[{ required: true, message: 'Select one contact channel!!' }]}
-                        >
-                            <Select
-                            placeholder="Select your contact channels"
-                            onChange={onPreferenceChange}
-                            allowClear
-                            >
-                            <Option value="fv">Canal Favorito</Option>
-                            <Option value="sp">Sin preferencia</Option>
-                            <Option value="nm">No molestar   </Option>
-                            </Select>
-                        </Form.Item>
-                    </Col>
-                    <Col span={5} className="d-flex justify-content-center align-items-center">
-                    <Button type="primary" className="d-flex justify-content-center align-items-center" onClick={channel5off} icon={<CloseOutlined />}/>
-                    </Col>
-                <Col span={2}></Col>
-            </Row>
-            
-            :null}
-                <Row gutter={16}>
+            <div className="d-flex justify-content-center">
+                <Form 
+                    ref={formularioRef}
+                    layout={formLayout} 
+                    form={form} 
+                    name="control-hooks" 
+                    onFinish={onFinish} 
+                    className="formulario" 
+                    onFinishFailed={onFinishFailed}
+                >
+                    <Row gutter={16}>
                         <Col span={2}></Col>
                         <Col span={5}>
                             <Form.Item 
-                                name="fk_region_id" 
-                                label="Region"
-                                rules={[{ required: true, message: 'Please input your region!!' }]} 
+                                name="fullname" 
+                                label="Fullname" 
+                                rules={[{ required: true, message: 'Please input your fullname!!' }]}
                             >
-                                <Select
-                                placeholder="Select your region"
-                                onChange={onRegionChange}
-                                allowClear
-                                // value={region}
-                                notFoundContent="Please add the region"
-                                >
-                                {regiones.map( region => (
-                                    <Select.Option value={region.region_id} key={region.region_id}>{region.region_name}</Select.Option>    
-                                ))}
-                                
-                                </Select>
-                                {/* <Button type="primary" icon={<PlusCircleOutlined />} className="add-new-item"></Button> */}
-                                {/* <Link to={'/add-new-region'} className='btn btn-sm btn-primary mt-1'>
-                                    Add new one
-                                </Link> */}
+                                <Input placeholder="Enter your fullname"/>
+                            </Form.Item>
+                        </Col>
+                        {/* <Col span={4}>
+                            <Form.Item name="lastName" label="Last Name" >
+                                <Input />
+                            </Form.Item>
+                        </Col>
+                        <Col span={4}>
+                            <Form.Item name="position" label="Position" >
+                                <Input />
+                            </Form.Item>
+                        </Col> */}
+                        <Col span={5}>
+                            <Form.Item 
+                                name="email" 
+                                label="Email" 
+                                rules={[{ required: true, message: 'Please input your email!!' }]}
+                            >
+                                <Input placeholder="Enter your email"/>
                             </Form.Item>
                         </Col>
                         <Col span={5}>
                             <Form.Item 
-                                name="fk_country_id" 
-                                label="Country"
-                                rules={[{ required: true, message: 'Please input your country!!' }]} 
+                                name="charge" 
+                                label="Charge" 
+                                rules={[{ required: true, message: 'Please input your charge!!' }]}
                             >
-                                <Select
-                                placeholder={placeHolderCountry}
-                                onChange={onCountryChange}
-                                allowClear
-                                // value={country}
-                                notFoundContent="Please add the country"
-                                disabled = {activeCountrySelect}
-                                >
-                                {paisesDeRegion.map( country => (
-                                    <Select.Option value={country.country_id} key={country.country_id}>{country.country_name}</Select.Option>    
-                                ))}
-                                </Select>
-                                {/* <Button type="primary" icon={<PlusCircleOutlined />} className="add-new-item"></Button> */}
-                                {/* <Link to={'/add-new-country'} className='btn btn-sm btn-primary mt-1'>
-                                    Add new one
-                                </Link> */}
+                                <Input placeholder="Enter your charge"/>
                             </Form.Item>
                         </Col>
                         <Col span={5}>
                             <Form.Item 
-                                name="fk_city_id" 
-                                label="City"
-                                rules={[{ required: true, message: 'Please input your city!!' }]} 
+                            name="company_id" 
+                            label="Company" 
+                            rules={[{ required: true, message: 'Please input your company!!' }]}
                             >
                                 <Select
-                                placeholder={placeHolderCity}
-                                onChange={onCityChange}
+                                placeholder="Select your company"
+                                onChange={onCompanyChange}
                                 allowClear
-                                // value={city}
-                                notFoundContent="Please add the city"
-                                disabled = {activeCitySelect}
+                                notFoundContent="Please add the company"
                                 >
-                                {ciudadesDePais.map( city => (
-                                    <Select.Option value={city.city_id} key={city.city_id}>{city.city_name}</Select.Option>    
+                                {companias.map( company => (
+                                    <Select.Option value={company.id} key={company.id}>{company.name}</Select.Option>    
                                 ))}
                                 </Select>
                                 {/* <Button type="primary" icon={<PlusCircleOutlined />} className="add-new-item"></Button> */}
-                                <Link to={'/regiones'} className='btn btn-sm btn-primary mt-1'>
+                                <Link to={'/add-new-company'} className='btn btn-sm btn-primary mt-1'>
                                     Add new one
                                 </Link>
                             </Form.Item>
                         </Col>
-                        <Col span={5}>
-                            <Form.Item name="address" label="Address" >
-                                <Input />
+                        {/* <Col span={5}>
+                            <Form.Item 
+                                name="contactChannel" 
+                                label="Contact Channel" 
+                                rules={[{ required: true, message: 'Select one contact channel!!' }]}
+                            >
+                                <Select
+                                placeholder="Select your contact channels"
+                                onChange={onGenderChange}
+                                allowClear
+                                >
+                                <Option value="male">male</Option>
+                                <Option value="female">female</Option>
+                                <Option value="other">other</Option>
+                                </Select>
                             </Form.Item>
-                        </Col>
-                        
+                        </Col> */}
                         <Col span={2}></Col>
                 </Row>
-            <Row>
-                <Col span={1}></Col>
-                    <Form.Item {...tailLayout}>
-                        <Button htmlType="submit" type="primary">
-                            Submit
+                <Row gutter={16}>
+                    <Col span={2}></Col>
+                    <Col span={5}>
+                            <Form.Item 
+                                name="contactChannel" 
+                                label="Contact channel 1" 
+                                rules={[{ required: true, message: 'Select contact channel' }]}
+                            >
+                                <Select
+                                placeholder="Select your contact channels"
+                                onChange={onContactChannelChange}
+                                allowClear
+                                >
+                                <Option value="1" disabled={disable1}>Whatsapp</Option>
+                                <Option value="2" disabled={disable2}>LLamada</Option>
+                                <Option value="3" disabled={disable3}>Email</Option>
+                                <Option value="4" disabled={disable4}>LinkedIn</Option>
+                                <Option value="5" disabled={disable5}>Facebook</Option>
+                                <Option value="6" disabled={disable6}>Instagram</Option>
+                                </Select>
+                            </Form.Item>
+                        </Col>
+                        <Col span={5}>
+                            <Form.Item 
+                                name="contactChannelValue" 
+                                label="user account" 
+                                onChange={onCuentaUsuarioChange}
+                                rules={[{ required: true, message: 'Fill value of this channel' }]}
+                            >
+                                <Input placeholder="Enter contact value channel"/>
+                            </Form.Item>
+                        </Col>
+                        <Col span={5}>
+                            <Form.Item 
+                                name="preference" 
+                                label="Preference" 
+                                rules={[{ required: true, message: 'Select preference' }]}
+                            >
+                                <Select
+                                placeholder="Select preference"
+                                onChange={onPreferenceChange}
+                                allowClear
+                                >
+                                <Option value="fv">Canal Favorito</Option>
+                                <Option value="sp">Sin preferencia</Option>
+                                <Option value="nm">No molestar   </Option>
+                                </Select>
+                            </Form.Item>
+                        </Col>
+                        <Col span={5} className="d-flex justify-content-center align-items-center">
+                        <Button type="primary" onClick={newContactChannelRow} disabled={!activeNewContactChannelBtn}>
+                            One more
                         </Button>
-                    </Form.Item>
-            </Row>                                
-        </Form>
+                        </Col>
+                    <Col span={2}></Col>
+                </Row>
+                { channels[0]? <Row gutter={16}>
+                    <Col span={2}></Col>
+                    <Col span={5}>
+                            <Form.Item 
+                                name="contactChannel0" 
+                                label="Contact Channel 2" 
+                                rules={[{ required: true, message: 'Select contact channel' }]}
+                                // rules={[{ required: true, message: 'Select one contact channel!!' }]}
+                            >
+                                <Select
+                                placeholder="Select your contact channels"
+                                onChange={onContactChannelChange0}
+                                allowClear
+                                >
+                                <Option value="1" disabled={disable1}>Whatsapp</Option>
+                                <Option value="2" disabled={disable2}>LLamada</Option>
+                                <Option value="3" disabled={disable3}>Email</Option>
+                                <Option value="4" disabled={disable4}>LinkedIn</Option>
+                                <Option value="5" disabled={disable5}>Facebook</Option>
+                                <Option value="6" disabled={disable6}>Instagram</Option>
+                                </Select>
+                            </Form.Item>
+                        </Col>
+                        <Col span={5}>
+                            <Form.Item 
+                                name="contactChannelValue0" 
+                                label="user account" 
+                                onChange={onCuentaUsuarioChange}
+                                rules={[{ required: true, message: 'Fill value of this channel' }]}
+                                // rules={[{ required: true, message: 'Please input your account or address!!' }]}
+                            >
+                                <Input placeholder="Enter contact value channel"/>
+                            </Form.Item>
+                        </Col>
+                        <Col span={5}>
+                            <Form.Item 
+                                name="preference0" 
+                                label="Preference" 
+                                rules={[{ required: true, message: 'Select preference' }]}
+                                // rules={[{ required: true, message: 'Select one contact channel!!' }]}
+                            >
+                                <Select
+                                placeholder="Select your contact channels"
+                                onChange={onPreferenceChange}
+                                allowClear
+                                >
+                                <Option value="fv">Canal Favorito</Option>
+                                <Option value="sp">Sin preferencia</Option>
+                                <Option value="nm">No molestar   </Option>
+                                </Select>
+                            </Form.Item>
+                        </Col>
+                        <Col span={5} className="d-flex justify-content-center align-items-center">
+                        <Button type="primary" className="d-flex justify-content-center align-items-center" onClick={channel1off}  icon={<CloseOutlined />}/>
+                        </Col>
+                    <Col span={2}></Col>
+                </Row>
+                
+                :null}
+                { channels[1]? <Row gutter={16}>
+                    <Col span={2}></Col>
+                    <Col span={5}>
+                            <Form.Item 
+                                name="contactChannel1" 
+                                label="Contact Channel 3" 
+                                rules={[{ required: true, message: 'Select contact channel' }]}
+                                // rules={[{ required: true, message: 'Select one contact channel!!' }]}
+                            >
+                                <Select
+                                ref={thirdSelectRef}
+                                placeholder="Select your contact channels"
+                                onChange={onContactChannelChange1}
+                                allowClear
+                                >
+                                <Option value="1" disabled={disable1}>Whatsapp</Option>
+                                <Option value="2" disabled={disable2}>LLamada</Option>
+                                <Option value="3" disabled={disable3}>Email</Option>
+                                <Option value="4" disabled={disable4}>LinkedIn</Option>
+                                <Option value="5" disabled={disable5}>Facebook</Option>
+                                <Option value="6" disabled={disable6}>Instagram</Option>
+                                </Select>
+                            </Form.Item>
+                        </Col>
+                        <Col span={5}>
+                            <Form.Item 
+                                name="contactChannelValue1" 
+                                label="user account" 
+                                onChange={onCuentaUsuarioChange}
+                                rules={[{ required: true, message: 'Fill value of this channel' }]}
+                                // rules={[{ required: true, message: 'Please input your account or address!!' }]}
+                            >
+                                <Input placeholder="Enter contact value channel"/>
+                            </Form.Item>
+                        </Col>
+                        <Col span={5}>
+                            <Form.Item 
+                                name="preference1" 
+                                label="Preference" 
+                                rules={[{ required: true, message: 'Select preference' }]}
+                                // rules={[{ required: true, message: 'Select one contact channel!!' }]}
+                            >
+                                <Select
+                                placeholder="Select your contact channels"
+                                onChange={onPreferenceChange}
+                                allowClear
+                                >
+                                <Option value="fv">Canal Favorito</Option>
+                                <Option value="sp">Sin preferencia</Option>
+                                <Option value="nm">No molestar   </Option>
+                                </Select>
+                            </Form.Item>
+                        </Col>
+                        <Col span={5} className="d-flex justify-content-center align-items-center">
+                        <Button type="primary" className="d-flex justify-content-center align-items-center" onClick={channel2off} icon={<CloseOutlined />}/>
+                        </Col>
+                    <Col span={2}></Col>
+                </Row>
+                
+                :null}
+                { channels[2] ? <Row gutter={16}>
+                    <Col span={2}></Col>
+                    <Col span={5}>
+                            <Form.Item 
+                                name="contactChannel2" 
+                                label="Contact Channel 4" 
+                                rules={[{ required: true, message: 'Select contact channel' }]}
+                                // rules={[{ required: true, message: 'Select one contact channel!!' }]}
+                            >
+                                <Select
+                                placeholder="Select your contact channels"
+                                onChange={onContactChannelChange2}
+                                allowClear
+                                >
+                                <Option value="1" disabled={disable1}>Whatsapp</Option>
+                                <Option value="2" disabled={disable2}>LLamada</Option>
+                                <Option value="3" disabled={disable3}>Email</Option>
+                                <Option value="4" disabled={disable4}>LinkedIn</Option>
+                                <Option value="5" disabled={disable5}>Facebook</Option>
+                                <Option value="6" disabled={disable6}>Instagram</Option>
+                                </Select>
+                            </Form.Item>
+                        </Col>
+                        <Col span={5}>
+                            <Form.Item 
+                                name="contactChannelValue2" 
+                                label="user account" 
+                                onChange={onCuentaUsuarioChange}
+                                rules={[{ required: true, message: 'Fill value of this channel' }]}
+                                // rules={[{ required: true, message: 'Please input your account or address!!' }]}
+                            >
+                                <Input placeholder="Enter contact value channel"/>
+                            </Form.Item>
+                        </Col>
+                        <Col span={5}>
+                            <Form.Item 
+                                name="preference2" 
+                                label="Preference" 
+                                rules={[{ required: true, message: 'Select preference' }]}
+                                // rules={[{ required: true, message: 'Select one contact channel!!' }]}
+                            >
+                                <Select
+                                placeholder="Select your contact channels"
+                                onChange={onPreferenceChange}
+                                allowClear
+                                >
+                                <Option value="fv">Canal Favorito</Option>
+                                <Option value="sp">Sin preferencia</Option>
+                                <Option value="nm">No molestar   </Option>
+                                </Select>
+                            </Form.Item>
+                        </Col>
+                        <Col span={5} className="d-flex justify-content-center align-items-center">
+                        <Button type="primary" className="d-flex justify-content-center align-items-center" onClick={channel3off} icon={<CloseOutlined />}/>
+                        </Col>
+                    <Col span={2}></Col>
+                </Row>
+                
+                :null}
+                { channels[3] ? <Row gutter={16}>
+                    <Col span={2}></Col>
+                    <Col span={5}>
+                            <Form.Item 
+                                name="contactChannel3" 
+                                label="Contact Channel 5" 
+                                rules={[{ required: true, message: 'Select contact channel' }]}
+                                // rules={[{ required: true, message: 'Select one contact channel!!' }]}
+                            >
+                                <Select
+                                placeholder="Select your contact channels"
+                                onChange={onContactChannelChange3}
+                                allowClear
+                                >
+                                <Option value="1" disabled={disable1}>Whatsapp</Option>
+                                <Option value="2" disabled={disable2}>LLamada</Option>
+                                <Option value="3" disabled={disable3}>Email</Option>
+                                <Option value="4" disabled={disable4}>LinkedIn</Option>
+                                <Option value="5" disabled={disable5}>Facebook</Option>
+                                <Option value="6" disabled={disable6}>Instagram</Option>
+                                </Select>
+                            </Form.Item>
+                        </Col>
+                        <Col span={5}>
+                            <Form.Item 
+                                name="contactChannelValue3" 
+                                label="user account" 
+                                onChange={onCuentaUsuarioChange}
+                                rules={[{ required: true, message: 'Fill value of this channel' }]}
+                                // rules={[{ required: true, message: 'Please input your account or address!!' }]}
+                            >
+                                <Input placeholder="Enter contact value channel"/>
+                            </Form.Item>
+                        </Col>
+                        <Col span={5}>
+                            <Form.Item 
+                                name="preference3" 
+                                label="Preference" 
+                                rules={[{ required: true, message: 'Select preference' }]}
+                                // rules={[{ required: true, message: 'Select one contact channel!!' }]}
+                            >
+                                <Select
+                                placeholder="Select your contact channels"
+                                onChange={onPreferenceChange}
+                                allowClear
+                                >
+                                <Option value="fv">Canal Favorito</Option>
+                                <Option value="sp">Sin preferencia</Option>
+                                <Option value="nm">No molestar   </Option>
+                                </Select>
+                            </Form.Item>
+                        </Col>
+                        <Col span={5} className="d-flex justify-content-center align-items-center">
+                        <Button type="primary" className="d-flex justify-content-center align-items-center" onClick={channel4off} icon={<CloseOutlined />}/>
+                        </Col>
+                    <Col span={2}></Col>
+                </Row>
+                
+                :null}
+                { channels[4] ? <Row gutter={16}>
+                    <Col span={2}></Col>
+                    <Col span={5}>
+                            <Form.Item 
+                                name="contactChannel4" 
+                                label="Contact Channel 6" 
+                                rules={[{ required: true, message: 'Select contact channel' }]}
+                                // rules={[{ required: true, message: 'Select one contact channel!!' }]}
+                            >
+                                <Select
+                                placeholder="Select your contact channels"
+                                onChange={onContactChannelChange4}
+                                allowClear
+                                >
+                                <Option value="1" disabled={disable1}>Whatsapp</Option>
+                                <Option value="2" disabled={disable2}>LLamada</Option>
+                                <Option value="3" disabled={disable3}>Email</Option>
+                                <Option value="4" disabled={disable4}>LinkedIn</Option>
+                                <Option value="5" disabled={disable5}>Facebook</Option>
+                                <Option value="6" disabled={disable6}>Instagram</Option>
+                                </Select>
+                            </Form.Item>
+                        </Col>
+                        <Col span={5}>
+                            <Form.Item 
+                                name="contactChannelValue4" 
+                                label="user account" 
+                                onChange={onCuentaUsuarioChange}
+                                rules={[{ required: true, message: 'Fill value of this channel' }]}
+                                // rules={[{ required: true, message: 'Please input your account or address!!' }]}
+                            >
+                                <Input placeholder="Enter contact value channel"/>
+                            </Form.Item>
+                        </Col>
+                        <Col span={5}>
+                            <Form.Item 
+                                name="preference4" 
+                                label="Preference" 
+                                rules={[{ required: true, message: 'Select preference' }]}
+                                // rules={[{ required: true, message: 'Select one contact channel!!' }]}
+                            >
+                                <Select
+                                placeholder="Select your contact channels"
+                                onChange={onPreferenceChange}
+                                allowClear
+                                >
+                                <Option value="fv">Canal Favorito</Option>
+                                <Option value="sp">Sin preferencia</Option>
+                                <Option value="nm">No molestar   </Option>
+                                </Select>
+                            </Form.Item>
+                        </Col>
+                        <Col span={5} className="d-flex justify-content-center align-items-center">
+                        <Button type="primary" className="d-flex justify-content-center align-items-center" onClick={channel5off} icon={<CloseOutlined />}/>
+                        </Col>
+                    <Col span={2}></Col>
+                </Row>
+                
+                :null}
+                    <Row gutter={16}>
+                            <Col span={2}></Col>
+                            <Col span={5}>
+                                <Form.Item 
+                                    name="fk_region_id" 
+                                    label="Region"
+                                    rules={[{ required: true, message: 'Please input your region!!' }]} 
+                                >
+                                    <Select
+                                    placeholder="Select your region"
+                                    onChange={onRegionChange}
+                                    allowClear
+                                    // value={region}
+                                    notFoundContent="Please add the region"
+                                    >
+                                    {regiones.map( region => (
+                                        <Select.Option value={region.region_id} key={region.region_id}>{region.region_name}</Select.Option>    
+                                    ))}
+                                    
+                                    </Select>
+                                    {/* <Button type="primary" icon={<PlusCircleOutlined />} className="add-new-item"></Button> */}
+                                    {/* <Link to={'/add-new-region'} className='btn btn-sm btn-primary mt-1'>
+                                        Add new one
+                                    </Link> */}
+                                </Form.Item>
+                            </Col>
+                            <Col span={5}>
+                                <Form.Item 
+                                    name="fk_country_id" 
+                                    label="Country"
+                                    rules={[{ required: true, message: 'Please input your country!!' }]} 
+                                >
+                                    <Select
+                                    placeholder={placeHolderCountry}
+                                    onChange={onCountryChange}
+                                    allowClear
+                                    // value={country}
+                                    notFoundContent="Please add the country"
+                                    disabled = {activeCountrySelect}
+                                    >
+                                    {paisesDeRegion.map( country => (
+                                        <Select.Option value={country.country_id} key={country.country_id}>{country.country_name}</Select.Option>    
+                                    ))}
+                                    </Select>
+                                    {/* <Button type="primary" icon={<PlusCircleOutlined />} className="add-new-item"></Button> */}
+                                    {/* <Link to={'/add-new-country'} className='btn btn-sm btn-primary mt-1'>
+                                        Add new one
+                                    </Link> */}
+                                </Form.Item>
+                            </Col>
+                            <Col span={5}>
+                                <Form.Item 
+                                    name="fk_city_id" 
+                                    label="City"
+                                    rules={[{ required: true, message: 'Please input your city!!' }]} 
+                                >
+                                    <Select
+                                    placeholder={placeHolderCity}
+                                    onChange={onCityChange}
+                                    allowClear
+                                    // value={city}
+                                    notFoundContent="Please add the city"
+                                    disabled = {activeCitySelect}
+                                    >
+                                    {ciudadesDePais.map( city => (
+                                        <Select.Option value={city.city_id} key={city.city_id}>{city.city_name}</Select.Option>    
+                                    ))}
+                                    </Select>
+                                    {/* <Button type="primary" icon={<PlusCircleOutlined />} className="add-new-item"></Button> */}
+                                    <Link to={'/regiones'} className='btn btn-sm btn-primary mt-1'>
+                                        Add new one
+                                    </Link>
+                                </Form.Item>
+                            </Col>
+                            <Col span={5}>
+                                <Form.Item name="address" label="Address" >
+                                    <Input />
+                                </Form.Item>
+                            </Col>
+                            
+                            <Col span={2}></Col>
+                    </Row>
+                <Row>
+                    <Col span={1}></Col>
+                        <Form.Item {...tailLayout}>
+                            <Button htmlType="submit" type="primary">
+                                Submit
+                            </Button>
+                        </Form.Item>
+                </Row>                                
+            </Form>
+        </div>
     </Fragment>
     );
 }

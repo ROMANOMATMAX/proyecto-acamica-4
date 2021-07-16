@@ -28,7 +28,7 @@ const UpdateCompany = (props) => {
     const {alerta, mostrarAlerta, ocultarAlarma} = alertaContext; 
     //Traigo el context de contactos
     const contactContext = useContext(ContactContext);
-    const {regiones, paisesDeRegion, getRegions, getCountriesByRegion, ciudadesDePais, companias, getCitiesByCountry, getCompanies, fillRegionField, fillCountryField, fillCityField, regionName, country, city, createCompany, updateCurrentCompanyInDB} = contactContext;
+    const {regiones, paisesDeRegion, getRegions, getCountriesByRegion, ciudadesDePais, companias, getCitiesByCountry, getCompanies, fillRegionField, fillCountryField, fillCityField, regionName, country, city, createCompany, updateCurrentCompanyInDB, deleteCitiesByCountry} = contactContext;
     //UseEffect
     useEffect(() => {
         console.log("Entre al use effect de nuevo contacto");
@@ -60,13 +60,16 @@ const UpdateCompany = (props) => {
         console.log(value);
         console.log(datos);
         fillRegionField(value);
-        form.resetFields(['country', 'city']);
+        form.resetFields(['fk_country_id', 'fk_city_id']);
         form.setFieldsValue({
             fk_region_id: value,
           });
         setActiveCountrySelect(false)
         setPlaceHolderCountry("Select country")
+        setActiveCitySelect(true)
+        setPlaceHolderCity("First Select a country")
         // setRegion(e.target.name);
+        deleteCitiesByCountry();
         getCountriesByRegion(value);
     }
 
@@ -89,7 +92,7 @@ const UpdateCompany = (props) => {
             fk_country_id: value,
           });
         // setCountry(datos.children)
-        form.resetFields(['city']);
+        form.resetFields(['fk_city_id']);
         setActiveCitySelect(false)
         setPlaceHolderCity("Select city")
         // setCountry(value);
@@ -174,165 +177,167 @@ const UpdateCompany = (props) => {
     return (  
         <Fragment>
             <Header/>
-            <h1>Complete con los datos del nuevo contacto</h1>
-            <Form 
-                layout={formLayout} 
-                form={form} 
-                name="control-hooks" 
-                onFinish={onFinish} 
-                className="formulario"
-                onFinishFailed={onFinishFailed}
-            >
-                <Row gutter={16}>
-                    <Col span={2}></Col>
-                    <Col span={5}>
-                        <Form.Item 
-                            name="name" 
-                            label="Name" 
-                            initialValue={JSON.parse(localStorage.getItem("currentCompany")).name}
-                            rules={[{ required: true, message: 'Please input company name!!' }]}
-                        >
-                            <Input />
-                        </Form.Item>
-                    </Col>
-                    {/* <Col span={4}>
-                        <Form.Item name="lastName" label="Last Name" >
-                            <Input />
-                        </Form.Item>
-                    </Col>
-                    <Col span={4}>
-                        <Form.Item name="position" label="Position" >
-                            <Input />
-                        </Form.Item>
-                    </Col> */}
-                    <Col span={5}>
-                        <Form.Item 
-                            name="email" 
-                            label="Email" 
-                            initialValue={JSON.parse(localStorage.getItem("currentCompany")).email}
-                            rules={[{ required: true, message: 'Please input the email company!!' }]}
-                        >
-                            <Input />
-                        </Form.Item>
-                    </Col>
-                    <Col span={5}>
-                        <Form.Item 
-                            name="phone" 
-                            label="Phone" 
-                            initialValue={JSON.parse(localStorage.getItem("currentCompany")).phone}
-                            rules={[{ required: true, message: 'Please input the phone company!!' }]}
-                        >
-                            <Input />
-                        </Form.Item>
-                    </Col>
-                    <Col span={2}></Col>
-            </Row>
-            {!activeInputForAddress 
-                ? <Row>
-                    <Col span={2}>
-                    </Col>
-                    <Col span={20}>
-                        <p className="m-0 text-dark">Your current address is: <span className="px-3 text-danger">{JSON.parse(localStorage.getItem("currentCompany")).region_name} - {JSON.parse(localStorage.getItem("currentCompany")).country_name} - {JSON.parse(localStorage.getItem("currentCompany")).city_name} - {JSON.parse(localStorage.getItem("currentCompany")).address}</span><a className="px-3 btn btn-danger" onClick={showInputRegion}>change address?</a></p>
-                    </Col>
-                    <Col span={2}>
-                    </Col>
-                  </Row>
-                : null
-            }
-            { activeInputForAddress
-                ?<Row gutter={16}>
+            <h3 className="text-primary text-center">Update the data of the company</h3>
+            <div className="d-flex justify-content-center">
+                <Form 
+                    layout={formLayout} 
+                    form={form} 
+                    name="control-hooks" 
+                    onFinish={onFinish} 
+                    className="formulario"
+                    onFinishFailed={onFinishFailed}
+                >
+                    <Row gutter={16}>
                         <Col span={2}></Col>
                         <Col span={5}>
                             <Form.Item 
-                                name="fk_region_id" 
-                                label="Region"
-                                rules={[{ required: true, message: 'Please input the region!!' }]}
+                                name="name" 
+                                label="Name" 
+                                initialValue={JSON.parse(localStorage.getItem("currentCompany")).name}
+                                rules={[{ required: true, message: 'Please input company name!!' }]}
                             >
-                                <Select
-                                placeholder="Select your region"
-                                onChange={onRegionChange}
-                                allowClear
-                                // value={region}
-                                // defaultValue={[`${JSON.parse(localStorage.getItem("currentContact")).fk_region_id}`]}
-                                // defaultValue={currentContact.fk_region_id}
-                                notFoundContent="Please add the region"
-                                >
-                                {regiones.map( region => (
-                                    <Select.Option value={region.region_id} key={region.region_id}>{region.region_name}</Select.Option>    
-                                ))}
-                                
-                                </Select>
-                                {/* <Button type="primary" icon={<PlusCircleOutlined />} className="add-new-item"></Button> */}
-                            </Form.Item>
-                        </Col>
-                        <Col span={5}>
-                            <Form.Item 
-                                name="fk_country_id" 
-                                label="Country"
-                                rules={[{ required: true, message: 'Please input the country!!' }]}
-                            >
-                                <Select
-                                placeholder={placeHolderCountry}
-                                onChange={onCountryChange}
-                                allowClear
-                                // value={country}
-                                // defaultValue={[`${JSON.parse(localStorage.getItem("currentContact")).fk_country_id}`]}
-                                // value={currentContact.fk_country_id}
-                                notFoundContent="Please add the country"
-                                disabled = {activeCountrySelect}
-                                >
-                                {paisesDeRegion.map( country => (
-                                    <Select.Option value={country.country_id} key={country.country_id}>{country.country_name}</Select.Option>    
-                                ))}
-                                </Select>
-                                {/* <Button type="primary" icon={<PlusCircleOutlined />} className="add-new-item"></Button> */}
-                            </Form.Item>
-                        </Col>
-                        <Col span={5}>
-                            <Form.Item 
-                                name="fk_city_id" 
-                                label="City"
-                                rules={[{ required: true, message: 'Please input the city!!' }]}
-                            >
-                                <Select
-                                placeholder={placeHolderCity}
-                                onChange={onCityChange}
-                                allowClear
-                                // value={city}
-                                // defaultValue={[`${JSON.parse(localStorage.getItem("currentContact")).fk_city_id}`]}
-                                // defaultValue={currentContact.fk_city_id}
-                                notFoundContent="Please add the city"
-                                disabled = {activeCitySelect}
-                                >
-                                {ciudadesDePais.map( city => (
-                                    <Select.Option value={city.city_id} key={city.city_id}>{city.city_name}</Select.Option>    
-                                ))}
-                                </Select>
-                                {/* <Button type="primary" icon={<PlusCircleOutlined />} className="add-new-item"></Button> */}
-                                <Link to={'/regiones'} className='btn btn-sm btn-primary mt-1' onClick={linkClick}>
-                                    Add new one
-                                </Link>
-                            </Form.Item>
-                        </Col>
-                        <Col span={5}>
-                            <Form.Item name="address" label="Address" >
                                 <Input />
                             </Form.Item>
                         </Col>
-                        
+                        {/* <Col span={4}>
+                            <Form.Item name="lastName" label="Last Name" >
+                                <Input />
+                            </Form.Item>
+                        </Col>
+                        <Col span={4}>
+                            <Form.Item name="position" label="Position" >
+                                <Input />
+                            </Form.Item>
+                        </Col> */}
+                        <Col span={5}>
+                            <Form.Item 
+                                name="email" 
+                                label="Email" 
+                                initialValue={JSON.parse(localStorage.getItem("currentCompany")).email}
+                                rules={[{ required: true, message: 'Please input the email company!!' }]}
+                            >
+                                <Input />
+                            </Form.Item>
+                        </Col>
+                        <Col span={5}>
+                            <Form.Item 
+                                name="phone" 
+                                label="Phone" 
+                                initialValue={JSON.parse(localStorage.getItem("currentCompany")).phone}
+                                rules={[{ required: true, message: 'Please input the phone company!!' }]}
+                            >
+                                <Input />
+                            </Form.Item>
+                        </Col>
                         <Col span={2}></Col>
                 </Row>
-                : null           
-            }
-            <Row>
-                <Col span={1}></Col>
-                    <Form.Item {...tailLayout}>
-                        <Button htmlType="submit" type="primary">
-                            Submit
-                        </Button>
-                    </Form.Item>
-            </Row>                                
-        </Form>
+                {!activeInputForAddress 
+                    ? <Row>
+                        <Col span={2}>
+                        </Col>
+                        <Col span={20}>
+                            <p className="m-0 text-dark">Your current address is: <span className="px-3 text-danger">{JSON.parse(localStorage.getItem("currentCompany")).region_name} - {JSON.parse(localStorage.getItem("currentCompany")).country_name} - {JSON.parse(localStorage.getItem("currentCompany")).city_name} - {JSON.parse(localStorage.getItem("currentCompany")).address}</span><a className="px-3 btn btn-danger" onClick={showInputRegion}>change address?</a></p>
+                        </Col>
+                        <Col span={2}>
+                        </Col>
+                    </Row>
+                    : null
+                }
+                { activeInputForAddress
+                    ?<Row gutter={16}>
+                            <Col span={2}></Col>
+                            <Col span={5}>
+                                <Form.Item 
+                                    name="fk_region_id" 
+                                    label="Region"
+                                    rules={[{ required: true, message: 'Please input the region!!' }]}
+                                >
+                                    <Select
+                                    placeholder="Select your region"
+                                    onChange={onRegionChange}
+                                    allowClear
+                                    // value={region}
+                                    // defaultValue={[`${JSON.parse(localStorage.getItem("currentContact")).fk_region_id}`]}
+                                    // defaultValue={currentContact.fk_region_id}
+                                    notFoundContent="Please add the region"
+                                    >
+                                    {regiones.map( region => (
+                                        <Select.Option value={region.region_id} key={region.region_id}>{region.region_name}</Select.Option>    
+                                    ))}
+                                    
+                                    </Select>
+                                    {/* <Button type="primary" icon={<PlusCircleOutlined />} className="add-new-item"></Button> */}
+                                </Form.Item>
+                            </Col>
+                            <Col span={5}>
+                                <Form.Item 
+                                    name="fk_country_id" 
+                                    label="Country"
+                                    rules={[{ required: true, message: 'Please input the country!!' }]}
+                                >
+                                    <Select
+                                    placeholder={placeHolderCountry}
+                                    onChange={onCountryChange}
+                                    allowClear
+                                    // value={country}
+                                    // defaultValue={[`${JSON.parse(localStorage.getItem("currentContact")).fk_country_id}`]}
+                                    // value={currentContact.fk_country_id}
+                                    notFoundContent="Please add the country"
+                                    disabled = {activeCountrySelect}
+                                    >
+                                    {paisesDeRegion.map( country => (
+                                        <Select.Option value={country.country_id} key={country.country_id}>{country.country_name}</Select.Option>    
+                                    ))}
+                                    </Select>
+                                    {/* <Button type="primary" icon={<PlusCircleOutlined />} className="add-new-item"></Button> */}
+                                </Form.Item>
+                            </Col>
+                            <Col span={5}>
+                                <Form.Item 
+                                    name="fk_city_id" 
+                                    label="City"
+                                    rules={[{ required: true, message: 'Please input the city!!' }]}
+                                >
+                                    <Select
+                                    placeholder={placeHolderCity}
+                                    onChange={onCityChange}
+                                    allowClear
+                                    // value={city}
+                                    // defaultValue={[`${JSON.parse(localStorage.getItem("currentContact")).fk_city_id}`]}
+                                    // defaultValue={currentContact.fk_city_id}
+                                    notFoundContent="Please add the city"
+                                    disabled = {activeCitySelect}
+                                    >
+                                    {ciudadesDePais.map( city => (
+                                        <Select.Option value={city.city_id} key={city.city_id}>{city.city_name}</Select.Option>    
+                                    ))}
+                                    </Select>
+                                    {/* <Button type="primary" icon={<PlusCircleOutlined />} className="add-new-item"></Button> */}
+                                    <Link to={'/regiones'} className='btn btn-sm btn-primary mt-1' onClick={linkClick}>
+                                        Add new one
+                                    </Link>
+                                </Form.Item>
+                            </Col>
+                            <Col span={5}>
+                                <Form.Item name="address" label="Address" >
+                                    <Input />
+                                </Form.Item>
+                            </Col>
+                            
+                            <Col span={2}></Col>
+                    </Row>
+                    : null           
+                }
+                <Row>
+                    <Col span={1}></Col>
+                        <Form.Item {...tailLayout}>
+                            <Button htmlType="submit" type="primary">
+                                Submit
+                            </Button>
+                        </Form.Item>
+                </Row>                                
+            </Form>
+        </div>
     </Fragment>
     );
 }

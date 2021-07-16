@@ -2,7 +2,7 @@
     width: 500px;
     height: 250px;
     margin: 0 auto;
-    position: absolute;
+    position: fixed;
     top: 25%;
     right: 32%;
     background: white;

@@ -248,7 +248,6 @@ const SearchContact = () => {
                     <Form.Item 
                             name="charge" 
                             label="Charge" 
-                            rules={[{ required: true, message: 'Please input your charge!!' }]}
                         >
                             <Input placeholder="charge to search"/>
                     </Form.Item>

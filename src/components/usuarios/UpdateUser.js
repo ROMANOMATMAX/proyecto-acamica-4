@@ -201,94 +201,96 @@ const UpdateUser = (props) => {
         <Fragment>
             <Header/>
             <h1>Complete con los datos del nuevo contacto</h1>
-            <Form layout={formLayout} form={form} name="control-hooks" onFinish={onFinish} className="formulario">
-                <Row gutter={16}>
-                    <Col span={8}></Col>
-                    <Col span={8}>
-                        <Form.Item 
-                            name="fullname" 
-                            label="Name" 
-                            rules={[{ required: true, message: 'Please enter user fullname!!' }]}
-                        >
-                            <Input placeholder="Enter user name"/>
-                        </Form.Item>
-                    </Col>
-                    <Col span={8}></Col>
-                </Row>
-                <Row gutter={16}>
+            <div className="d-flex justify-content-center">
+                <Form layout={formLayout} form={form} name="control-hooks" onFinish={onFinish} className="formulario">
+                    <Row gutter={16}>
                         <Col span={8}></Col>
                         <Col span={8}>
-                        <Form.Item 
-                            name="email" 
-                            label="Email" 
-                            rules={[{ required: true, message: 'Please enter user email!!' }]}    
-                        >
-                            <Input placeholder="Enter user email"/>
-                        </Form.Item>
-                    </Col>
-                        <Col span={8}></Col>
-                </Row>
-                <Row gutter={16}>
-                        <Col span={8}></Col>
-                        <Col span={8}>
-                        <Form.Item 
-                            name="password" 
-                            label="Password" 
-                            onChange={onChangePassOne}
-                            rules={[{ required: true, message: 'Please enter user password!!' }]}    
-                        >
-                            <Input.Password placeholder="Enter your password"/>
-                        </Form.Item>
-                    </Col>
-                        <Col span={8}></Col>
-                </Row>  
-                <Row gutter={16}>
-                        <Col span={8}></Col>
-                        <Col span={8}>
-                        <Form.Item name="doblepassword" label="Confirm password" onChange={onChangePassTwo}>
-                            <Input.Password placeholder="Enter your password again"/>
-                        </Form.Item>
-                    </Col>
-                        <Col span={8}></Col>
-                </Row> 
-                <Row gutter={16} className="mb-3">
-                        <Col span={8}></Col>
-                        <Col span={8}>
-                        {mostrarMensajeExito ? <div><div className="text-success" role="alert">Same passwords!!</div></div> : null}
-                        {mostrarMensajeError ? <div><div className="text-danger" role="alert">The passwords are different!</div></div> : null}
-                    </Col>
-                        <Col span={8}></Col>
-                </Row> 
-                <Row gutter={16}>
-                        <Col span={8}></Col>
-                        <Col span={8}>
-                        <Form.Item 
-                            name="role" 
-                            label="Role" 
-                            rules={[{ required: true, message: 'Select Role' }]}
-                            // rules={[{ required: true, message: 'Select one contact channel!!' }]}
-                        >
-                            <Select
-                            placeholder="Select the role of the user"
-                            // onChange={onPreferenceChange}
-                            allowClear
+                            <Form.Item 
+                                name="fullname" 
+                                label="Name" 
+                                rules={[{ required: true, message: 'Please enter user fullname!!' }]}
                             >
-                            <Option value="BASIC">BASIC</Option>
-                            <Option value="ADMIN">ADMIN</Option>
-                            </Select>
-                        </Form.Item>
+                                <Input placeholder="Enter user name"/>
+                            </Form.Item>
                         </Col>
                         <Col span={8}></Col>
-                </Row>   
-                <Row>
-                <Col span={7}></Col>
-                    <Form.Item {...tailLayout}>
-                        <Button htmlType="submit" type="primary">
-                            Submit
-                        </Button>
-                    </Form.Item>
-            </Row>                            
-        </Form>
+                    </Row>
+                    <Row gutter={16}>
+                            <Col span={8}></Col>
+                            <Col span={8}>
+                            <Form.Item 
+                                name="email" 
+                                label="Email" 
+                                rules={[{ required: true, message: 'Please enter user email!!' }]}    
+                            >
+                                <Input placeholder="Enter user email"/>
+                            </Form.Item>
+                        </Col>
+                            <Col span={8}></Col>
+                    </Row>
+                    <Row gutter={16}>
+                            <Col span={8}></Col>
+                            <Col span={8}>
+                            <Form.Item 
+                                name="password" 
+                                label="Password" 
+                                onChange={onChangePassOne}
+                                rules={[{ required: true, message: 'Please enter user password!!' }]}    
+                            >
+                                <Input.Password placeholder="Enter your password"/>
+                            </Form.Item>
+                        </Col>
+                            <Col span={8}></Col>
+                    </Row>  
+                    <Row gutter={16}>
+                            <Col span={8}></Col>
+                            <Col span={8}>
+                            <Form.Item name="doblepassword" label="Confirm password" onChange={onChangePassTwo}>
+                                <Input.Password placeholder="Enter your password again"/>
+                            </Form.Item>
+                        </Col>
+                            <Col span={8}></Col>
+                    </Row> 
+                    <Row gutter={16} className="mb-3">
+                            <Col span={8}></Col>
+                            <Col span={8}>
+                            {mostrarMensajeExito ? <div><div className="text-success" role="alert">Same passwords!!</div></div> : null}
+                            {mostrarMensajeError ? <div><div className="text-danger" role="alert">The passwords are different!</div></div> : null}
+                        </Col>
+                            <Col span={8}></Col>
+                    </Row> 
+                    <Row gutter={16}>
+                            <Col span={8}></Col>
+                            <Col span={8}>
+                            <Form.Item 
+                                name="role" 
+                                label="Role" 
+                                rules={[{ required: true, message: 'Select Role' }]}
+                                // rules={[{ required: true, message: 'Select one contact channel!!' }]}
+                            >
+                                <Select
+                                placeholder="Select the role of the user"
+                                // onChange={onPreferenceChange}
+                                allowClear
+                                >
+                                <Option value="BASIC">BASIC</Option>
+                                <Option value="ADMIN">ADMIN</Option>
+                                </Select>
+                            </Form.Item>
+                            </Col>
+                            <Col span={8}></Col>
+                    </Row>   
+                    <Row>
+                    <Col span={7}></Col>
+                        <Form.Item {...tailLayout}>
+                            <Button htmlType="submit" type="primary">
+                                Submit
+                            </Button>
+                        </Form.Item>
+                </Row>                            
+            </Form>
+        </div>
     </Fragment>
     );
 }

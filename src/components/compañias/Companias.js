@@ -162,6 +162,7 @@ const Companias = () => {
           setSelectedRowKeys([]);
           setLoading(false);
           setDeleteGroup(false);
+          setHasSelectedState(false);
         }, 1000);
       };
     const onClickDeleteSelected = () => {
@@ -215,7 +216,7 @@ const Companias = () => {
             </Radio.Group>
 
             <Divider />
-            <div style={{ marginBottom: 16 }}>
+            <div style={{ marginBottom: 16 }} className="mx-5">
                 <Button type="primary" onClick={start} disabled={!hasSelectedState} loading={loading}>
                     Reload
                 </Button>

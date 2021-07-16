@@ -1,4 +1,6 @@
 import React, {useState} from 'react';
+import tokenAuth from '../../config/token'
+import clienteAxios from '../../config/axios'
 import './itemRegion.css'
 
 const ItemRegion = ({setIdRegion, setItemToAdd, setOpacityOn, setMostrarFormUpdate, setUpdateRegions, updateRegions, identificador, showAddCountryBtn, setShowAddCountryBtn, parentName, displayClass, setDisplayClass}) => {
@@ -29,8 +31,20 @@ const ItemRegion = ({setIdRegion, setItemToAdd, setOpacityOn, setMostrarFormUpda
     }
 
     //Maneja el request para borrar el item en cuestion
-    const deleteItem = () => {
+    const deleteItem = async () => {
+        console.log(identificador);
         console.log("deleting");
+        const token = localStorage.getItem('token');
+        if(token){
+            tokenAuth(token);
+        }
+        const data = await clienteAxios.delete(`/regions/removeRegion/${identificador}`)
+        console.log(data);
+        if(updateRegions === true){
+            setUpdateRegions(false);
+        }else{
+            setUpdateRegions(true);
+        }
     }
 
     return (  

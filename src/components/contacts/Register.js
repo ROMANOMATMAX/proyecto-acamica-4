@@ -252,6 +252,7 @@ const Register = () => {
         setSelectedRowKeys([]);
         setLoading(false);
         setDeleteGroup(false);
+        setHasSelectedState(false);
       }, 1000);
     };
 
@@ -290,8 +291,8 @@ const Register = () => {
         <div>
         <Header/>
         <div className="d-flex justify-content-between px-4 mx-4">
-          <div className="d-flex">
-                <div className="d-flex align-items-center mx-4">Search contact</div>
+          <div className="d-flex color-gris">
+                <div className="d-flex align-items-center mx-4 text-white">Search contact</div>
                 <a className="btn btn-primary" onClick={onClickSearch}><i class="fas fa-search"></i></a>
           </div>
           <Link to={'/add-new-contact'} className='btn btn-primary'>
@@ -312,7 +313,7 @@ const Register = () => {
         </Radio.Group>
 
         <Divider />
-        <div style={{ marginBottom: 16 }}>
+        <div style={{ marginBottom: 16 }} className="mx-5">
           <Button type="primary" onClick={start} disabled={!hasSelectedState} loading={loading}>
             Reload
           </Button>

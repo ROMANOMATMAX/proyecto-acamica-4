@@ -17,7 +17,8 @@ import {
     OBTENER_CONTACT_CHANNELS,
     DELETE_CONTACT_CHANNELS,
     DELETE_CURRENT_CONTACT,
-    DELETE_CURRENT_COMPANY
+    DELETE_CURRENT_COMPANY,
+    DELETE_CIUDADES_DE_PAIS
 } from '../../types'
 
 export default (state, action) => {
@@ -119,6 +120,11 @@ export default (state, action) => {
             return{
                 ...state,
                 currentContactChannels: []
+            }
+        case DELETE_CIUDADES_DE_PAIS:
+            return{
+                ...state,
+                ciudadesDePais: []
             }
         default: 
             return state;
