@@ -7,6 +7,8 @@ Description: This the 4th project of Acamica DWFS degree and it is about a conta
 
 How do you run this proyect?
 
+This entire project was developed in REACT so first of all be sure you have installed NODE.js
+
 1- Clone the repository locally in your computer
 2- After that please open the project folder in your favorite IDE for me is VSC
 3- Open a terminal window and redirect the path of the commmand line to the project folder, because we want next commands to by apply there.
