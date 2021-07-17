@@ -120,9 +120,6 @@ const Login = (props) => {
                 value="login" 
                 className="btn  btn-primary mb-3 w-25"
                 />
-                <Link to={'/registrarse'} className='enlace-cuenta'>
-                    Obtener Cuenta
-                </Link>
             </Form>
         </ContenedorLoginForm>
     );
