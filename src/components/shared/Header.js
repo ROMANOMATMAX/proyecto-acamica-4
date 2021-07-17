@@ -1,6 +1,10 @@
 import React, {useState, useContext, useRef} from 'react';
 import {Link} from 'react-router-dom';
 import logo from './img/logo-test.jpg'; // with import
+import logoUno from './img/logoUno.png'; // with import
+import logoDos from './img/logoDos.png'; // with import
+import logoTres from './img/logoTres.png'; // with import
+import logoCuatro from './img/logoCuatro.png'; // with import
 import avatar from './img/avatar.jpg'; // with import
 import './css/register.css'
 import AuthContext from '../../context/authentication/authContext';
@@ -55,7 +59,7 @@ const Header = (props) => {
     return (  
         <header className="my-4">
             <div className="logo-container">
-                <img src={logo} alt="" className="w-100"/>
+                <img src={logoCuatro} alt="" className="w-100"/>
             </div>
             <ul>
                 <li>

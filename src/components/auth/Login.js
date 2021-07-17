@@ -32,7 +32,7 @@ const Login = (props) => {
     }
     //Traigo el context de alertas
     const alertaContext = useContext(AlertaContext);
-    const {alerta, mostrarAlerta} = alertaContext; 
+    const {alerta, mostrarAlerta, ocultarAlarma} = alertaContext; 
 
     //Traigo el context de authentication
     const authsContext = useContext(authContext);
@@ -48,6 +48,7 @@ const Login = (props) => {
             console.log("hay mensaje error");
             console.log(mensaje.msg);
             mostrarAlerta(mensaje.msg, mensaje.categoria)
+            ocultarAlarma();
         }
     }, [mensaje, autenticado, props.history])
 
@@ -73,6 +74,7 @@ const Login = (props) => {
         if(email.trim()==='' || password.trim()===''){
             console.log("Algo dato es erroneo");
             mostrarAlerta('Todos los campos son obligatorios', 'alerta-error')
+            ocultarAlarma();
             return;
         }
         //Pasar los datos a un estado 
@@ -84,6 +86,7 @@ const Login = (props) => {
 
     return (  
         <ContenedorLoginForm>
+            <h1 className="text-primary text-center my-5">Data Warehouse</h1>
             {alerta 
             ? (<div className="alert alert-danger">{alerta.msg}</div>)
             : null}
